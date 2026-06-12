@@ -31,8 +31,19 @@ import uvicorn
 
 from app.config import settings
 
-# Mock LLM (thay bằng OpenAI/Anthropic khi có API key)
-from utils.mock_llm import ask as llm_ask
+# ReAct Agent and Provider imports
+from src.core.provider_factory import get_provider
+from src.agent.agent import ReActAgent
+from src.tools.hr_tools import TOOLS_METADATA
+
+_agent = None
+
+def get_agent():
+    global _agent
+    if _agent is None:
+        llm = get_provider()
+        _agent = ReActAgent(llm=llm, tools=TOOLS_METADATA, version="v2")
+    return _agent
 
 # ─────────────────────────────────────────────────────────
 # Logging — JSON structured
@@ -215,7 +226,8 @@ async def ask_agent(
         "client": str(request.client.host) if request.client else "unknown",
     }))
 
-    answer = llm_ask(body.question)
+    agent = get_agent()
+    answer = agent.run(body.question)
 
     output_tokens = len(answer.split()) * 2
     check_and_record_cost(0, output_tokens)
