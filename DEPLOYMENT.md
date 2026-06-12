@@ -40,3 +40,12 @@ curl -X POST https://batch02-day12cloudinfrasanddeployment-production-6f2f.up.ra
 - `AGENT_API_KEY`: `dev-key-change-me`
 - `JWT_SECRET`: `dev-jwt-secret`
 - `PORT`: `8000`
+
+## Run Streamlit GUI Dashboard (Local)
+To launch the interactive Enterprise HR ReAct Agent Workspace interface locally:
+```bash
+# Activate your virtual environment and run streamlit
+.venv\Scripts\python -m streamlit run src/Gui/app.py
+```
+This will open the dashboard UI at http://localhost:8501.
+
