@@ -43,7 +43,7 @@
 ## Part 3: Cloud Deployment
 
 ### Exercise 3.1: Railway deployment
-- **URL**: https://batch02-day12cloudinfrasanddeployment-production-6f2f.up.railway.app/
+- **URL**: https://perfect-art-production-d49b.up.railway.app/
 - **Ý nghĩa của các biến môi trường**:
   - `PORT`: Thiết lập cổng lắng nghe cho API Gateway. Các Cloud Provider sẽ inject biến này tự động để định tuyến traffic.
   - `AGENT_API_KEY`: Khóa bí mật dùng để xác thực client khi gọi API endpoint `/ask`.
@@ -57,7 +57,7 @@
 
 #### Lệnh test không có X-API-Key:
 ```bash
-curl -X POST https://batch02-day12cloudinfrasanddeployment-production-6f2f.up.railway.app/ask -H "Content-Type: application/json" -d '{"question":"Hello"}'
+curl -X POST https://perfect-art-production-d49b.up.railway.app/ask -H "Content-Type: application/json" -d '{"question":"Hello"}'
 ```
 **Output mong muốn**: `401 Unauthorized` kèm thông báo:
 ```json
@@ -66,7 +66,7 @@ curl -X POST https://batch02-day12cloudinfrasanddeployment-production-6f2f.up.ra
 
 #### Lệnh test với API Key đúng:
 ```bash
-curl -X POST https://batch02-day12cloudinfrasanddeployment-production-6f2f.up.railway.app/ask -H "X-API-Key: dev-key-change-me" -H "Content-Type: application/json" -d '{"question":"Hello"}'
+curl -X POST https://perfect-art-production-d49b.up.railway.app/ask -H "X-API-Key: dev-key-change-me" -H "Content-Type: application/json" -d '{"question":"Hello"}'
 ```
 **Output mong muốn**: `200 OK`
 ```json
@@ -80,7 +80,7 @@ curl -X POST https://batch02-day12cloudinfrasanddeployment-production-6f2f.up.ra
 
 #### Lệnh test Rate Limiting (gọi liên tục vượt quá 20 requests/minute):
 ```bash
-for i in {1..25}; do curl -s -o /dev/null -w "%{http_code}\n" -X POST https://batch02-day12cloudinfrasanddeployment-production-6f2f.up.railway.app/ask -H "X-API-Key: dev-key-change-me" -H "Content-Type: application/json" -d '{"question":"Hello"}'; done
+for i in {1..25}; do curl -s -o /dev/null -w "%{http_code}\n" -X POST https://perfect-art-production-d49b.up.railway.app/ask -H "X-API-Key: dev-key-change-me" -H "Content-Type: application/json" -d '{"question":"Hello"}'; done
 ```
 **Output**: Trả về một chuỗi mã `200` và cuối cùng xuất hiện mã lỗi `429` (Too Many Requests).
 ```json
